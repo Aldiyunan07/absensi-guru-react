@@ -5,3 +5,12 @@ export interface Iuser {
     photo: string;
     role: string;
 }
+
+export interface Iagenda {
+    id: string;
+    kelas: string;
+    pelajaran: string;
+    hari: string;
+    jam: string;
+    waktu: string;
+}

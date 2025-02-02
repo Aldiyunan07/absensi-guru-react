@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Footer from './Footer';
 import Navbar from './Navbar';
 import Sidebar from './Sidebar';
+import Title from './Title';
 
 export default function App({ children, title = null }: ChildrenApp) {
     const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true); // Default sidebar terbuka
@@ -35,7 +36,10 @@ export default function App({ children, title = null }: ChildrenApp) {
                 <Sidebar isSidebarOpen={isSidebarOpen} isCollapsed={isCollapsed} />
                 <div className={`page-content ${isSidebarOpen ? '' : 'full-width'}`}>
                     <div className="container-fluid">
-                        <div className="main-content">{children}</div>
+                        <div className="main-content">
+                            <Title title={title}/>
+                            {children}
+                        </div>
                     </div>
                 </div>
                 <Footer />
@@ -47,6 +51,6 @@ export default function App({ children, title = null }: ChildrenApp) {
 
 // Perbaiki interface
 interface ChildrenApp {
-    title?: string;
+    title?: string | null;
     children: JSX.Element | JSX.Element[];
 }

@@ -5,8 +5,8 @@ const token    = localStorage.getItem('token');
 const apiClient = axios.create({
     baseURL: BASE_URL,
     headers: {
-        Authorization : `Bearer ${token}`,
         Accept: 'Application/json',
+        Authorization: `Bearer ${token}`,
     },
 });
 
