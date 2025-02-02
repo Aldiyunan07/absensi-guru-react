@@ -6,10 +6,11 @@ import Label from '../../components/Label';
 import { validationLogin } from '../../types/validationLogin';
 import { z } from 'zod';
 import apiClient from '../../services/apiService';
-import { Iuser } from '../../types/type';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 export default function LoginPage() {
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -18,7 +19,6 @@ export default function LoginPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [formErrors, setFormErrors] = useState<z.ZodIssue[]>([]);
-    const [user, setUser] = useState<Iuser | null>(null);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setFormData({
@@ -41,7 +41,12 @@ export default function LoginPage() {
             const response = await apiClient.post('/api/login', {
                 ...formData,
             });
-            setUser(response.data.user);
+            localStorage.setItem('token', response.data.token);
+            navigate('/dashboard', {
+                state: {
+                    user: response.data.user,
+                },
+            });
         } catch (error: unknown) {
             if (axios.isAxiosError(error)) {
                 console.error('Error submitting form', error.message);
@@ -71,7 +76,7 @@ export default function LoginPage() {
                                     <div className="text-center"></div>
                                     {/* end row */}
                                     <h4 className="font-size-18 text-muted mt-2 text-center">Absensi Guru</h4>
-                                    {user?.name ? <p className="mb-5 text-center"> Hallo {user?.name}</p> : <p className="mb-5 text-center">Login untuk melanjutkan.</p>}
+                                    <p className="mb-5 text-center">Login untuk melanjutkan.</p>
                                     <form onSubmit={handleSubmit} className="form-horizontal">
                                         <div className="row">
                                             <div className="col-md-12">
